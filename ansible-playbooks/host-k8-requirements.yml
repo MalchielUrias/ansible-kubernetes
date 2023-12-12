@@ -81,11 +81,8 @@
       apt:
           update_cache: yes
           cache_valid_time: 3600
-<<<<<<< HEAD
 
-    - name: Install K8s
-=======
->>>>>>> b2d8e876211710c94959705d826c23095fe331cb
+    - name: Install k8
       apt:
         pkg:
           - kubelet
@@ -93,10 +90,7 @@
           - kubectl
         state: latest
         update_cache: true
-<<<<<<< HEAD
 
     - name: Hold installs
-=======
->>>>>>> b2d8e876211710c94959705d826c23095fe331cb
       shell: |
                 sudo apt-mark hold kubelet kubeadm kubectl
