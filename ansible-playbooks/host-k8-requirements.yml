@@ -46,10 +46,16 @@
         update_cache: true
 
     - name: enable containerd-repo 
+      uri:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        method: GET
+      register: result
+
+    - name: gpg 
       shell: |
-                sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+                sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
     
-    - name: enable containerd-repo repository 
+    - name: add containerd-repo repository 
       apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
