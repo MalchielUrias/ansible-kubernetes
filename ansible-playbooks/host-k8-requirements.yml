@@ -46,10 +46,9 @@
         update_cache: true
 
     - name: enable containerd-repo 
-      uri:
+      ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
-        method: GET
-      register: result
+        dest: /etc/apt/trusted.gpg.d/docker.gpg
 
     - name: gpg 
       shell: |
