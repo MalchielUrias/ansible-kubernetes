@@ -51,8 +51,7 @@
         dest: .
 
     - name: gpg 
-      shell: |
-                sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+      command: sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
     
     - name: add containerd-repo repository 
       apt_repository:
