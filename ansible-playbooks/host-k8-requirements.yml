@@ -77,12 +77,12 @@
       apt:
           update_cache: yes
           cache_valid_time: 3600
-        apt:
-          pkg:
-            - kubelet
-            - kubeadm
-            - kubectl
-          state: latest
-          update_cache: true
-        shell: |
-                  sudo apt-mark hold kubelet kubeadm kubectl
+      apt:
+        pkg:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: latest
+        update_cache: true
+      shell: |
+                sudo apt-mark hold kubelet kubeadm kubectl
