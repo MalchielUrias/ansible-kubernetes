@@ -46,16 +46,14 @@
         update_cache: true
 
     - name: enable containerd-repo 
-      ansible.builtin.get_url:
+      apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
-        dest: .
-
-    - name: gpg 
-      command: sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
+        state: present
     
     - name: add containerd-repo repository 
       apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+        state: present
 
     - name: update cache
       apt:
