@@ -5,7 +5,7 @@
     - name: Initialize the KubeAdm Cluster
       shell: sudo kubeadm init --control-plane-endpoint=sandbox-vm-1 --pod-network-cidr=10.10.0.0/16 
 
-    - nsmae: Create kubeconfig fle
+    - name: Create kubeconfig fle
       shell: | 
                 mkdir -p $HOME/.kube
                 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
