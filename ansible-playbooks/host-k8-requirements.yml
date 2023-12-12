@@ -34,7 +34,7 @@
         update_cache: yes
         cache_valid_time: 3600
 
-    - name: enable containerd-repo 
+    - name: download containerd-repo 
       apt:
         pkg:
           - curl
@@ -44,14 +44,18 @@
           - ca-certificates
         state: latest
         update_cache: true
+
+      - name: enable containerd-repo 
       shell: |
                 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmour -o /etc/apt/trusted.gpg.d/docker.gpg
                 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 
-    - name: Install containerd and containerd tools
+    - name: update cache
       apt:
         update_cache: yes
         cache_valid_time: 3600
+
+    - name: Install containerd and containerd tools
       apt:
         pkg:
           - containerd.io
@@ -73,16 +77,20 @@
                 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
                 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-    - name: Install K8s
+    - name: update cache
       apt:
           update_cache: yes
           cache_valid_time: 3600
-        apt:
-          pkg:
-            - kubelet
-            - kubeadm
-            - kubectl
-          state: latest
-          update_cache: true
-        shell: |
-                  sudo apt-mark hold kubelet kubeadm kubectl
+
+    - name: Install K8s
+      apt:
+        pkg:
+          - kubelet
+          - kubeadm
+          - kubectl
+        state: latest
+        update_cache: true
+
+    - name: Hold installs
+      shell: |
+                sudo apt-mark hold kubelet kubeadm kubectl
