@@ -5,12 +5,6 @@
     - name: Initialize the KubeAdm Cluster
       shell: sudo kubeadm init --control-plane-endpoint=sandbox-vm-1 --pod-network-cidr=10.10.0.0/16 
 
-    - name: Create kubeconfig fle
-      shell: | 
-                mkdir -p $HOME/.kube
-                sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-                sudo chown $(id -u):$(id -g) $HOME/.kube/config 
-
     - name: Install curl 
       apt:
         pkg:
@@ -25,12 +19,3 @@
     - name: Copy join command to local file.
       become: yes
       local_action: copy content="{{ kubernetes_join_command.stdout_lines[0] }}" dest="/tmp/kubernetes_join_command" mode=0777
-
-    - name: Install calico Pod network
-      become: yes
-      become_user: k8sadmin
-      shell: |
-                 kubectl apply -f kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/tigera-operator.yaml
-                 curl https://raw.githubusercontent.com/projectcalico/calico/v3.26.4/manifests/custom-resources.yaml -O
-                 sed -i 's/cidr: 192\.168\.0\.0\/16/cidr: 10.10.0.0\/16/g' custom-resources.yaml
-                 kubectl create -f custom-resources.yaml
