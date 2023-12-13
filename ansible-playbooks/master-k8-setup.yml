@@ -11,8 +11,8 @@
           - curl
 
     - name: Get join token
-      become: yes
-      become_user: k8sadmin
+      # become: yes
+      # become_user: k8sadmin
       shell: sudo kubeadm token create  --print-join-command
       register: kubernetes_join_command
 
